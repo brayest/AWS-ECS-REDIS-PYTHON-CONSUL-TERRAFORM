@@ -1,5 +1,5 @@
-aws_profile = "brayest"
+aws_profile = "YOUR_PROFILE"
 aws_region = "us-east-1"
 vpc_cdir =  "10.0.0.0/16"
-ssh_pubkey_file = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAzk1BEISCm5f7irkQ8vbCBEGYR60k8j0RD4HSzZUdCjqkFXb0fpSklYlYqzD9q7W7n869AhuxXPCF/zf1FJLnpeCn2couo9WIoUBmoVP4BvPL5zJNtS1RH4XoMi+EMYF6v02ZwyGcXhIeOm/7lAiq0UY8A+mYSKFmIBqbgvSLl+Pm+VceAh4/OUFQlp4k0sF3JxgSFiqeqBfRxhgDNWVg32q9C6e+M/q5jV7VG0MrmeQnW58wbq0Jxul4fg8tmCR336bZ18S8Bil9evvtfnTvFkOxaz5BMpF++cztj4zz3Ik04JOzBbCUQTXbdoRkG3UVJiHk8zyAJc0KLA8F09/R root@brayet-pc.salgados"
+ssh_pubkey_file = "YOUR_GENERATED_UBLIC_KEY"
 

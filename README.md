@@ -238,8 +238,8 @@ ELB_DNS_NAME = myapp-elb-769439976.us-east-1.elb.amazonaws.com
 
 * The Web App works as intended, but it has some conectiviy problems that are not reproducible when it runs on only 1 host. It seems to be related to de ELB or the way ECS handles containers. 
 * There are no ACLs and ALL the security groups are without any restrictions, this deploy is NOT for production porpuses
-* All AWS services have cost related to them, this deploy should NOT be left active for log periods of time, it could provoke in economic problems.  (I did it in all within the free tier)
-* Even tho the app works and Registrator is discovering the services through the consul agents and server AND the Consul DNS is providing the resolution for redis to be discover, the Python Flask Script is handling the DNS querys in a way that, from my point of view , is harder that it should be. It seems to be  posible to use AWS DNS to make the service discovery more "transparent" to the Apps wihtout having to program the way out to the solution.
+* All AWS services have cost related to them, this deploy should NOT be left active for long periods of time, it could provoke economic problems.  (I did it in all within the free tier)
+* Even tho the app works, Registrator is discovering the services through the consul agents and server AND the Consul DNS is providing the resolution for redis to be discover, the Python Flask Script is handling the DNS querys in a way that, from my point of view , is harder that it should be. It seems to be  posible to use AWS DNS to make the service discovery more "transparent" to the Apps wihtout having to program the way out to the solution.
 
 
 
