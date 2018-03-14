@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  consul:
+    image:  gliderlabs/consul-server:latest
+    command: "-advertise=${MYHOST} -server -bootstrap"
+    container_name: consul
+    ports:
+    - 8500:8500
+    - 8400:8400
+    - 53:8600/udp
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    command: "consul://${MYHOST}:8500"
+    hostname: ${MYHOST}
+    container_name: registrator
+    depends_on:
+    - consul
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    restart: always
+    depends_on:
+      - registrator
+
+  app:
+    container_name: myapp
+    build: ./Flask
+    volumes:
+      - ./Flask:/usr/src/app
+    ports:
+      - 80:80
+    depends_on:
+      - redis

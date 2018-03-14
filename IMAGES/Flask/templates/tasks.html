@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>Form!</title>
+</head>
+<body>
+	<b>Task List</b>
+	<br>
+	<br>
+	{% for i in keys %}
+		Keys = {{ i }} <br>
+		Title = {{ val[i]["title"] }}<br>
+		Short Description = {{ val[i]["shortdesc"] }}<br>
+		Priority = {{ val[i]["priority"] }}<br><br>
+	{% endfor %}
+</body>
+</html>

@@ -1,0 +1,7 @@
+flask
+python-consul
+redis
+pytest
+flask_wtf
+wtforms
+DNSPython
