@@ -1,6 +1,6 @@
 # AWS ECS EC2 DOCKER FLASK TERRAFORM REDIS
 
-This repository contains the necesary scripts and procdedures to deploy a **simple** Flask App using a Redis DB unsing Docker Compose with service discoveroy by Consul and a service registry bridge by Registrator. Also in includes the procedure and the necesary Terraform modules to automate the a **simple** deployment of to AWS using ECS, EC2, ECR, AWS Auto Scaling and ELB. This is only the base for improving. 
+This repository contains the necesary scripts and procdedures to deploy a **simple** Flask App using a Redis DB using Docker Compose with service discovery by Consul and a service registry bridge by Registrator. Also in includes the procedure and the necesary Terraform modules to automate the a **simple** deployment of to AWS using ECS, EC2, ECR, AWS Auto Scaling and ELB. This is only the base for improving. 
 
 
 * [Enviroment](#enviroment)
@@ -19,7 +19,13 @@ The following work enviroment was used:
 * Docker compose version 1.19.0, build 9e633ef
 * AWS-CLI aws-cli/1.14.53 Python/3.4.6 Linux/4.15.4-2-default botocore/1.9.6
 
-I assume that you know how to what they are, how to install and excute them. Also you should have knowledge about AWS IAM to add a user, get keys the for management and grant the necesary policies. 
+I assume that you know what they are and how to install and excute them. Also you should have knowledge about AWS IAM to add a user, get keys the for management and grant the necessary policies. 
+
+```bash
+aws configure --profile YOUR_PROFILE
+```
+
+You should be able to fill the prompts of this command.
 
 ## AWS Infrastructure
 
@@ -27,20 +33,20 @@ I assume that you know how to what they are, how to install and excute them. Als
 
 To do:
 * 1 VPC: Virtual Private Cloud, for base networking.
-* 2 Public Subnets: This is where all instances are created in to.
+* 2 Public Subnets: This is where all instances are created into.
 * 2 Private Subnets: For scaling propuses.
 * 1 Internet GW: For internet access.
 * 1 Route table: Route to internet access.
 * 2 Route table Associations: Public subnets route associations.
-* 2 Security groups (ELB, EC2 and ECS): For access, INBOUD and OUTBOUND ALL is Open. Needs to be restricted.
+* 2 Security groups (ELB, EC2 and ECS): For access, INBOUD and OUTBOUND.
 * 1 EC2-ECS Role: For AWS resources access.
 * 2 IAM Roles: For resources.
 * 2 IAM Policies: For access resources.
-* 1 AWS Launch Configuration: ECS -> EC2 instances creation
-* 1 Auto Scaling Group: Autoscale 
-* 1 EC2 Instance: Consul server 
-* 1 Elstic Load Balancer: Classic
-* 2 Task Definitions: Containers definitions
+* 1 AWS Launch Configuration: ECS -> EC2 instances creation.
+* 1 Auto Scaling Group: Autoscale. 
+* 1 EC2 Instance: Consul server.
+* 1 Elstic Load Balancer: Classic.
+* 2 Task Definitions: Containers definitions.
 * 2 ECS Services: Containers deployment.
 * 1 Elastic load Balancer: To distribute traffic among the ECS instances running the app.
 
@@ -50,7 +56,7 @@ In order to test and develop our app locally we use Docker and Docker Compose to
 ### Simple Redis Task-Note (Credit: Rochana Nana [link](https://www.youtube.com/watch?v=W0ZNEOgsLmY&t=1407s)):
 The WEB APP was made in python and uses:
 * Flask: As the framework.
-* DNSPython: DNS lookups. Providen by Consul.
+* DNSPython: DNS lookups provide by Consul.
 * WTForms and Flask_WTF: For the WEB interface.
 * Redis: For database storage.
 
@@ -58,17 +64,13 @@ A few modifications where made for the app to work within the AWS enviroment.
 
 ### Creating containers images and deploy
 
-The web app image has to be created for docker to be able to use it, along with the images of Consul, Registrator and Redis which we are only going to download user docker. 
-
-```bash
-aws configure --profile YOUR_PROFILE
-```
+The web app image has to be created for docker to be able to use it, along with the images of Consul, Registrator and Redis which we are only going to be downloaded by docker. 
 
 Quick way:
 
 ```bash
 cd WEBAPP
-export MYHOST=PUT.YOU.PRIVATE.IP
+export MYHOST=PUT.YOUR.PRIVATE.IP
 docker-compose builld
 docker-compose up
 ```
@@ -77,7 +79,7 @@ MYHOST is environment variable which docker uses to specify the Web app, Consul 
 
 Now docker must be running, we can check the services:
 * Consul: http://127.0.0.1:8500
-* WebApp: http://127.0.0.1/  (the default port is **80**, change it if needed)
+* WebApp: http://127.0.0.1/  (the default port is **80**, and is set that way within the scripts)
 
 ## AWS
 
@@ -172,7 +174,7 @@ This URL **051627290916.dkr.ecr.us-east-1.amazonaws.com/myapp** is the URL where
 
 ### Image build and upload (PUSH)
 
-In order to push our images to the new repository we need to build our images to be suited for it. MYHOST variable is no longer valid and Consul and Registrator are going to be set in a diferent manner. So we just need to push the images for Redis and the App, those are the only ones that are going to be handle by ECS.  The image name has to match the repositories URL in order to be accepted, run this inside the Apps image IMAGES/Flask:
+In order to push our images to the new repository we need to build our images to be suited for it. MYHOST variable is no longer valid and Consul and Registrator are going to be set in a diferent manner. So we just need to push the images for Redis and the App, those are the only ones that are going to be handle by ECS.  The image name has to match the repositories URL in order to be accepted. Run the following inside the Apps image IMAGES/Flask:
 
 ```bash
 docker build -t 051627290916.dkr.ecr.us-east-1.amazonaws.com/myapp:myapp .
@@ -212,7 +214,7 @@ Now we are ready to deploy the insfrastructure into AWS. (You might need to re-r
 terraform apply
 ```
 
-Watch Terrafor work for you, keep in mind that some resources take longer to provision that others so after terraform finishes it might take some time for AWS to finish provisioning the the whole infrastructure, so be patient. Also, it is terraform fails time to time. **IF** you encounter an error run
+Watch Terraform work for you, keep in mind that some resources take longer to provision than others so after terraform finishes it might take some time for AWS to finish provisioning the the whole infrastructure, so be patient. Also, Terraform fails time to time. **IF** you encounter an error run
 
 ```bash
 terraform destroy
@@ -232,11 +234,11 @@ ELB_DNS_NAME = myapp-elb-769439976.us-east-1.elb.amazonaws.com
 * You can SSH to the Consul Public IP using you private key.
 * You can see the Consul UI in http://54.198.185.244:8500
 * You can use the Web App in http://myapp-elb-769439976.us-east-1.elb.amazonaws.com/
-* You can login to AWS and confirm that every thing is running.
+* You can login to AWS and confirm that everything is running.
 
 ## Issues
 
-* The Web App works as intended, but it has some conectiviy problems that are not reproducible when it runs on only 1 host. It seems to be related to de ELB or the way ECS handles containers. 
+* The Web App works as intended, but it has some connectiviy problems that are not reproducible when it runs on only 1 host. It seems to be related to de ELB or the way ECS handles containers. 
 * There are no ACLs and ALL the security groups are without any restrictions, this deploy is NOT for production porpuses
 * All AWS services have cost related to them, this deploy should NOT be left active for long periods of time, it could provoke economic problems.  (I did it in all within the free tier)
 * Even tho the app works, Registrator is discovering the services through the consul agents and server AND the Consul DNS is providing the resolution for redis to be discover, the Python Flask Script is handling the DNS querys in a way that, from my point of view , is harder that it should be. It seems to be  posible to use AWS DNS to make the service discovery more "transparent" to the Apps wihtout having to program the way out to the solution.
