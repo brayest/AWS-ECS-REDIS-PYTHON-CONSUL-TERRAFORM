@@ -1,4 +1,4 @@
-# AWS ECS EC2 DOCKER FLASK TERRAFORM REDIS
+# AWS ECS EC2 CONSUL REGISTRATOR DOCKER FLASK TERRAFORM REDIS
 
 This repository contains the necesary scripts and procdedures to deploy a **simple** Flask App using a Redis DB using Docker Compose with service discovery by Consul and a service registry bridge by Registrator. Also in includes the procedure and the necesary Terraform modules to automate the a **simple** deployment of to AWS using ECS, EC2, ECR, AWS Auto Scaling and ELB. This is only the base for improving. 
 
