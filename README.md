@@ -29,7 +29,7 @@ You should be able to fill the prompts of this command.
 
 ## AWS Infrastructure
 
-![ECS infra](img/infra.png)
+![ECS infra](img/infra.jpg)
 
 To do:
 * 1 VPC: Virtual Private Cloud, for base networking.
