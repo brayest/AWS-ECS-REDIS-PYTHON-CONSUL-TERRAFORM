@@ -9,7 +9,7 @@ services:
     ports:
     - 8500:8500
     - 8400:8400
-    - 8600:8600/udp
+    - 53:8600/udp
 
   registrator:
     image: gliderlabs/registrator:latest

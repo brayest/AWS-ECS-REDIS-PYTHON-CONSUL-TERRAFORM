@@ -177,6 +177,7 @@ This URL **051627290916.dkr.ecr.us-east-1.amazonaws.com/myapp** is the URL where
 In order to push our images to the new repository we need to build our images to be suited for it. MYHOST variable is no longer valid and Consul and Registrator are going to be set in a diferent manner. So we just need to push the images for Redis and the App, those are the only ones that are going to be handle by ECS.  The image name has to match the repositories URL in order to be accepted. Run the following inside the Apps image IMAGES/Flask:
 
 ```bash
+cd IMAGES/Flask
 docker build -t 051627290916.dkr.ecr.us-east-1.amazonaws.com/myapp:myapp .
 ```
 
@@ -211,6 +212,7 @@ Like before, the first thing you need to do is fill you variables in **terraform
 Now we are ready to deploy the insfrastructure into AWS. (You might need to re-run terraform init again). Move into DEPLOY directory and run: terraform plan, check what is going to happen, you should have **27 to add** resources.
 
 ```bash
+cd DEPLOY
 terraform apply
 ```
 
