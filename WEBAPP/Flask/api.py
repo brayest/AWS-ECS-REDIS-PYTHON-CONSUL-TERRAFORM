@@ -22,7 +22,7 @@ except:
 	pass
 	
 if ip != "":
-	redis_host = ip
+	redis_host = ip.to_text()
 else :
 	redis_host = "redis"
 

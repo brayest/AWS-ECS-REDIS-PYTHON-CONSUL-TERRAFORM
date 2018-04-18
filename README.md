@@ -1,6 +1,6 @@
 # AWS ECS EC2 CONSUL REGISTRATOR DOCKER FLASK TERRAFORM REDIS
 
-This repository contains the necesary scripts and procdedures to deploy a **simple** Flask App using a Redis DB using Docker Compose with service discovery by Consul and a service registry bridge by Registrator. Also in includes the procedure and the necesary Terraform modules to automate the a **simple** deployment of to AWS using ECS, EC2, ECR, AWS Auto Scaling and ELB. This is only the base for improving. 
+This repository contains the necesary scripts and procdedures to deploy a **simple** Flask App using a Redis DB using Docker Compose with service discovery by Consul and a service registry bridge by Registrator. Also in includes the procedure and the necesary Terraform modules to automate the a **simple** deployment of to AWS using ECS, EC2, ECR, AWS Auto Scaling and ELB. This is only the base for improving.
 
 
 * [Enviroment](#enviroment)
@@ -11,15 +11,15 @@ This repository contains the necesary scripts and procdedures to deploy a **simp
 ## Enviroment
 The following work enviroment was used:
 
-* A OpenSuse Leap 42.3 x86_64. 
-* Python 2.7.13. 
+* A OpenSuse Leap 42.3 x86_64.
+* Python 2.7.13.
 * Python pip 9.0.1.
 * Terraform v0.11.3
 * Docker version 17.09.1-ce, build f4ffd2511ce9
 * Docker compose version 1.19.0, build 9e633ef
 * AWS-CLI aws-cli/1.14.53 Python/3.4.6 Linux/4.15.4-2-default botocore/1.9.6
 
-I assume that you know what they are and how to install and excute them. Also you should have knowledge about AWS IAM to add a user, get keys the for management and grant the necessary policies. 
+I assume that you know what they are and how to install and excute them. Also you should have knowledge about AWS IAM to add a user, get keys the for management and grant the necessary policies.
 
 ```bash
 aws configure --profile YOUR_PROFILE
@@ -43,15 +43,15 @@ To do:
 * 2 IAM Roles: For resources.
 * 2 IAM Policies: For access resources.
 * 1 AWS Launch Configuration: ECS -> EC2 instances creation.
-* 1 Auto Scaling Group: Autoscale. 
+* 1 Auto Scaling Group: Autoscale.
 * 1 EC2 Instance: Consul server.
 * 1 Elstic Load Balancer: Classic.
 * 2 Task Definitions: Containers definitions.
 * 2 ECS Services: Containers deployment.
 * 1 Elastic load Balancer: To distribute traffic among the ECS instances running the app.
 
-## Docker Compose 
-In order to test and develop our app locally we use Docker and Docker Compose to set the necesary app enviroment and requirements. 
+## Docker Compose
+In order to test and develop our app locally we use Docker and Docker Compose to set the necesary app enviroment and requirements.
 
 ### Simple Redis Task-Note (Credit: Rochana Nana [link](https://www.youtube.com/watch?v=W0ZNEOgsLmY&t=1407s)):
 The WEB APP was made in python and uses:
@@ -60,11 +60,11 @@ The WEB APP was made in python and uses:
 * WTForms and Flask_WTF: For the WEB interface.
 * Redis: For database storage.
 
-A few modifications where made for the app to work within the AWS enviroment. 
+A few modifications where made for the app to work within the AWS enviroment.
 
 ### Creating containers images and deploy
 
-The web app image has to be created for docker to be able to use it, along with the images of Consul, Registrator and Redis which we are only going to be downloaded by docker. 
+The web app image has to be created for docker to be able to use it, along with the images of Consul, Registrator and Redis which we are only going to be downloaded by docker.
 
 Quick way:
 
@@ -83,7 +83,7 @@ Now docker must be running, we can check the services:
 
 ## AWS
 
-Now that the app is up and running we can deploy the infrastructure and upload our containers to AWS ECS. 
+Now that the app is up and running we can deploy the infrastructure and upload our containers to AWS ECS.
 Fist we have to get our AWS APIs credentias ready and be able to connect to AWS. You can check this with this command:
 
 ```bash
@@ -98,7 +98,7 @@ Before we can use Terraform we need to set some variables in order to access AWS
 * aws_profile = "YOUR_PROFILE"
 * aws_region  = "YOUR_AWS_DEFAULT_REGION"
 
-After that run the following to change into directory, initialice Terraform and run the planner. 
+After that run the following to change into directory, initialice Terraform and run the planner.
 
 ```bash
 cd ECR
@@ -213,6 +213,7 @@ Now we are ready to deploy the insfrastructure into AWS. (You might need to re-r
 
 ```bash
 cd DEPLOY
+terraform init
 terraform apply
 ```
 
@@ -240,10 +241,7 @@ ELB_DNS_NAME = myapp-elb-769439976.us-east-1.elb.amazonaws.com
 
 ## Issues
 
-* The Web App works as intended, but it has some connectiviy problems that are not reproducible when it runs on only 1 host. It seems to be related to de ELB or the way ECS handles containers. 
+* The Web App works as intended, but it has some connectiviy problems that are not reproducible when it runs on only 1 host. It seems to be related to de ELB or the way ECS handles containers.
 * There are no ACLs and ALL the security groups are without any restrictions, this deploy is NOT for production porpuses
 * All AWS services have cost related to them, this deploy should NOT be left active for long periods of time, it could provoke economic problems.  (I did it in all within the free tier)
 * Even tho the app works, Registrator is discovering the services through the consul agents and server AND the Consul DNS is providing the resolution for redis to be discover, the Python Flask Script is handling the DNS querys in a way that, from my point of view , is harder that it should be. It seems to be  posible to use AWS DNS to make the service discovery more "transparent" to the Apps wihtout having to program the way out to the solution.
-
-
-
