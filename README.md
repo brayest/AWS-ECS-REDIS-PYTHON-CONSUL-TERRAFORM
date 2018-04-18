@@ -45,7 +45,6 @@ To do:
 * 1 AWS Launch Configuration: ECS -> EC2 instances creation.
 * 1 Auto Scaling Group: Autoscale.
 * 1 EC2 Instance: Consul server.
-* 1 Elstic Load Balancer: Classic.
 * 2 Task Definitions: Containers definitions.
 * 2 ECS Services: Containers deployment.
 * 1 Elastic load Balancer: To distribute traffic among the ECS instances running the app.
